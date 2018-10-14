@@ -132,10 +132,12 @@ client.on('messageReactionAdd', (messageReaction, user) => {
     if (index > - 1) {
       console.log("Second");
 
-      if (!messageReaction.message.member.roles.find('name', rolesMapping[index])) {
+      var member = messageReaction.message.guild.members.find('id', user.id);
+      if (!member.roles.find('name', rolesMapping[index])) {
         var hero = messageReaction.message.guild.roles.find('name', rolesMapping[index]);
         console.log("Adding role: " + rolesMapping[index]);
-        messageReaction.message.member.addRoles([hero]).then(console.log("Role "+rolesMapping[index]+" Added to user")).catch(console.error);
+
+        member.addRoles([hero]).then(console.log("Role "+rolesMapping[index]+" Added to user")).catch(console.error);
       } else {
         console.log("The user already have that role");
       }
@@ -156,10 +158,13 @@ client.on('messageReactionRemove', (messageReaction, user) => {
     if (index > - 1) {
       console.log("Second");
 
-      if (messageReaction.message.member.roles.find('name', rolesMapping[index])) {
+      var member = messageReaction.message.guild.members.find('id', user.id);
+
+      if (member.roles.find('name', rolesMapping[index])) {
         var hero = messageReaction.message.guild.roles.find('name', rolesMapping[index]);
         console.log("Adding role: " + rolesMapping[index]);
-        messageReaction.message.member.removeRoles([hero]).then(console.log("Role "+rolesMapping[index]+" removed from user")).catch(console.error);
+        
+        member.removeRoles([hero]).then(console.log("Role "+rolesMapping[index]+" removed from user")).catch(console.error);
       } else {
         console.log("The user dont have the role.");
       }
